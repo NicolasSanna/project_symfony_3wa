@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonce{% endblock %}
+
+{% block body %}
+    <h1>Annonce</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ annonce.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ annonce.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ annonce.description }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ annonce.price }} €</td>
+            </tr>
+            <tr>
+                <th>Visibilité</th>
+                <td>{{ annonce.isVisible ? 'Oui' : 'Non' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if app.user %}
+
+        <a href="{{ path('app_annonce_index') }}">Revenir à la liste</a>
+        <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">Éditer</a>
+
+    {{ include('annonce/_delete_form.html.twig') }}
+
+    {% endif %}
+
+    <h3>Commentaires</h3>
+
+    {% for comment in annonce.commentaries %}
+
+        <h4>{{comment.user.pseudo}} :</h4>
+        <p>{{comment.text}}</p>
+
+    {% endfor %}
+
+    {% if app.user %}
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn">{{ button_label|default('Ajouter un commentaire') }}</button>
+    {{ form_end(form) }}
+
+    {% endif %}
+
+{% endblock %}

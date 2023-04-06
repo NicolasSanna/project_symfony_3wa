@@ -13,6 +13,38 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
+    {% if app.user %}
+
+        <div class="mb-3">
+            Vous êtes bien connecté en tant que {{ app.user.userIdentifier }}
+        </div>
+        <div class="mb-3">
+            <a href="{{ path('app_logout') }}">Se déconnecter</a>
+        </div>
+        <div class="mb-3">
+            <a href="{{ path('app_address_index') }}">Mes addresses</a>
+        </div>
+        <div class="mb-3">
+            <a href="{{ path('app_annonce_index') }}">Mes annonces</a>
+        </div>
+        <div class="mb-3">
+            <a href="{{ path('app_article_index') }}">Mes articles</a>
+        </div>
+
+
+    {% else %}
+
+        <div class="mb-3">
+            <a href="{{ path('app_register') }}">S'inscrire</a>
+        </div>
+         <div class="mb-3">
+            <a href="{{ path('app_login') }}">Se connecter</a>
+        </div>
+        <div class="mb-3">
+            <a href="{{ path('app_category_index') }}">Catégories</a>
+        </div>
+
+    {% endif %}
     <body>
         {% block body %}{% endblock %}
     </body>

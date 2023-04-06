@@ -1,15 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Annonce index{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Annonce index</h1>
 
-<div class="example-wrapper">
-    <h1>Liste des annonces</h1>
     <table class="table">
         <thead>
             <tr>
@@ -31,9 +26,7 @@
                 <td>{{ annonce.isVisible ? 'Oui' : 'Non' }}</td>
                 <td>
                     <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Voir</a>
-                    {% if app.user %}
-                        <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">Éditer</a>
-                    {% endif %}
+                    <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">Éditer</a>
                 </td>
             </tr>
         {% else %}
@@ -43,5 +36,6 @@
         {% endfor %}
         </tbody>
     </table>
-</div>
+
+    <a href="{{ path('app_annonce_new') }}">Créer une nouvelle annonce</a>
 {% endblock %}
