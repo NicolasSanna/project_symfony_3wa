@@ -24,15 +24,15 @@ class Address
     #[ORM\Column]
     private ?int $zip = null;
 
-    #[ORM\OneToMany(mappedBy: 'address', targetEntity: User::class)]
-    private Collection $users;
+    #[ORM\ManyToOne(inversedBy: 'address')]
+    private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'adress')]
-    private ?Acquisition $acquisition = null;
+    #[ORM\OneToMany(mappedBy: 'address', targetEntity: Acquisition::class)]
+    private Collection $acquisitions;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->acquisitions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,44 +76,44 @@ class Address
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
+    public function getUser(): ?User
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function addUser(User $user): self
+    public function setUser(?User $user): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->setAddress($this);
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Acquisition>
+     */
+    public function getAcquisitions(): Collection
+    {
+        return $this->acquisitions;
+    }
+
+    public function addAcquisition(Acquisition $acquisition): self
+    {
+        if (!$this->acquisitions->contains($acquisition)) {
+            $this->acquisitions->add($acquisition);
+            $acquisition->setAddress($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeAcquisition(Acquisition $acquisition): self
     {
-        if ($this->users->removeElement($user)) {
+        if ($this->acquisitions->removeElement($acquisition)) {
             // set the owning side to null (unless already changed)
-            if ($user->getAddress() === $this) {
-                $user->setAddress(null);
+            if ($acquisition->getAddress() === $this) {
+                $acquisition->setAddress(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getAcquisition(): ?Acquisition
-    {
-        return $this->acquisition;
-    }
-
-    public function setAcquisition(?Acquisition $acquisition): self
-    {
-        $this->acquisition = $acquisition;
 
         return $this;
     }

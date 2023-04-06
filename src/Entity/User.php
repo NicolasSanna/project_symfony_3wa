@@ -32,8 +32,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $pseudo = null;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    private ?Address $address = null;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Address::class)]
+    private Collection $address;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Annonce::class)]
     private Collection $annonces;
@@ -41,13 +41,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Commentary::class)]
     private Collection $commentaries;
 
-    #[ORM\ManyToOne(inversedBy: 'user')]
-    private ?Acquisition $acquisition = null;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Acquisition::class)]
+    private Collection $acquisitions;
 
     public function __construct()
     {
+        $this->address = new ArrayCollection();
         $this->annonces = new ArrayCollection();
         $this->commentaries = new ArrayCollection();
+        $this->acquisitions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,14 +134,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAddress(): ?Address
+    /**
+     * @return Collection<int, Address>
+     */
+    public function getAddress(): Collection
     {
         return $this->address;
     }
 
-    public function setAddress(?Address $address): self
+    public function addAddress(Address $address): self
     {
-        $this->address = $address;
+        if (!$this->address->contains($address)) {
+            $this->address->add($address);
+            $address->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddress(Address $address): self
+    {
+        if ($this->address->removeElement($address)) {
+            // set the owning side to null (unless already changed)
+            if ($address->getUser() === $this) {
+                $address->setUser(null);
+            }
+        }
 
         return $this;
     }
@@ -204,14 +224,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAcquisition(): ?Acquisition
+    /**
+     * @return Collection<int, Acquisition>
+     */
+    public function getAcquisitions(): Collection
     {
-        return $this->acquisition;
+        return $this->acquisitions;
     }
 
-    public function setAcquisition(?Acquisition $acquisition): self
+    public function addAcquisition(Acquisition $acquisition): self
     {
-        $this->acquisition = $acquisition;
+        if (!$this->acquisitions->contains($acquisition)) {
+            $this->acquisitions->add($acquisition);
+            $acquisition->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAcquisition(Acquisition $acquisition): self
+    {
+        if ($this->acquisitions->removeElement($acquisition)) {
+            // set the owning side to null (unless already changed)
+            if ($acquisition->getUser() === $this) {
+                $acquisition->setUser(null);
+            }
+        }
 
         return $this;
     }

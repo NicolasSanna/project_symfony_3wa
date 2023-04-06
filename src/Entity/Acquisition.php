@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\AcquisitionRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AcquisitionRepository::class)]
@@ -15,52 +13,28 @@ class Acquisition
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToMany(mappedBy: 'acquisition', targetEntity: User::class)]
-    private Collection $user;
+    #[ORM\ManyToOne(inversedBy: 'acquisitions')]
+    private ?User $user = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Annonce $annonce = null;
 
-    #[ORM\OneToMany(mappedBy: 'acquisition', targetEntity: Address::class)]
-    private Collection $adress;
-
-    public function __construct()
-    {
-        $this->user = new ArrayCollection();
-        $this->adress = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'acquisitions')]
+    private ?Address $address = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUser(): Collection
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function addUser(User $user): self
+    public function setUser(?User $user): self
     {
-        if (!$this->user->contains($user)) {
-            $this->user->add($user);
-            $user->setAcquisition($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->user->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getAcquisition() === $this) {
-                $user->setAcquisition(null);
-            }
-        }
+        $this->user = $user;
 
         return $this;
     }
@@ -77,32 +51,14 @@ class Acquisition
         return $this;
     }
 
-    /**
-     * @return Collection<int, Address>
-     */
-    public function getAdress(): Collection
+    public function getAddress(): ?Address
     {
-        return $this->adress;
+        return $this->address;
     }
 
-    public function addAdress(Address $adress): self
+    public function setAddress(?Address $address): self
     {
-        if (!$this->adress->contains($adress)) {
-            $this->adress->add($adress);
-            $adress->setAcquisition($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAdress(Address $adress): self
-    {
-        if ($this->adress->removeElement($adress)) {
-            // set the owning side to null (unless already changed)
-            if ($adress->getAcquisition() === $this) {
-                $adress->setAcquisition(null);
-            }
-        }
+        $this->address = $address;
 
         return $this;
     }
