@@ -18,7 +18,7 @@ class Category
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Article::class)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Article::class, cascade:['persist', 'remove'])]
     private Collection $articles;
 
     public function __construct()

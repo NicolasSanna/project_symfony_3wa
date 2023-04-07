@@ -40,11 +40,11 @@
          <div class="mb-3">
             <a href="{{ path('app_login') }}">Se connecter</a>
         </div>
-        <div class="mb-3">
-            <a href="{{ path('app_category_index') }}">Catégories</a>
-        </div>
 
     {% endif %}
+    <div class="mb-3">
+        <a href="{{ path('app_category_index') }}">Catégories</a>
+    </div>
     <body>
         {% block body %}{% endblock %}
     </body>

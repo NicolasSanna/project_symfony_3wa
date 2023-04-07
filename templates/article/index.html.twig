@@ -24,7 +24,12 @@
                 <td>{{ article.createdAt ? article.createdAt|date('d/m/Y à H:i') : '' }}</td>
                 <td>
                     <a href="{{ path('app_article_show', {'id': article.id}) }}">Voir</a>
-                    <a href="{{ path('app_article_edit', {'id': article.id}) }}">Éditer</a>
+
+                    {% if app.user %}
+
+                        <a href="{{ path('app_article_edit', {'id': article.id}) }}">Éditer</a>
+
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -34,6 +39,10 @@
         {% endfor %}
         </tbody>
     </table>
+    
+    {% if app.user %}
+         <a href="{{ path('app_article_new') }}">Créer un nouvel article</a>
+    {% endif %}
 
-    <a href="{{ path('app_article_new') }}">Créer un nouvel article</a>
+   
 {% endblock %}

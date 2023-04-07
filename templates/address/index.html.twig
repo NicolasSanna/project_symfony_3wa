@@ -25,6 +25,7 @@
                 <td>
                     <a href="{{ path('app_address_show', {'id': address.id}) }}">Voir</a>
                     <a href="{{ path('app_address_edit', {'id': address.id}) }}">Modifier</a>
+                     {{ include('address/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}

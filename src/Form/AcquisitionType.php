@@ -16,7 +16,7 @@ class AcquisitionType extends AbstractType
         $builder
             ->add('address', EntityType::class, [
                 'class' => Address::class,
-                'label' => 'Adresse',
+                'label' => 'Adresse de livraison : ',
                 'choice_label' => 'street'
             ])
         ;
