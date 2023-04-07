@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/address')]
 class AddressController extends AbstractController
 {
-    #[Route('/', name: 'app_address_index', methods: ['GET'])]
+    #[Route('/admin', name: 'app_address_index', methods: ['GET'])]
     public function index(AddressRepository $addressRepository): Response
     {
         return $this->render('address/index.html.twig', [
@@ -21,7 +21,7 @@ class AddressController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_address_new', methods: ['GET', 'POST'])]
+    #[Route('/admin/new', name: 'app_address_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AddressRepository $addressRepository): Response
     {
         $address = new Address();
@@ -50,7 +50,7 @@ class AddressController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_address_edit', methods: ['GET', 'POST'])]
+    #[Route('/admin/{id}/edit', name: 'app_address_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Address $address, AddressRepository $addressRepository): Response
     {
         $form = $this->createForm(AddressType::class, $address);
@@ -68,7 +68,7 @@ class AddressController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_address_delete', methods: ['POST'])]
+    #[Route('/admin/{id}', name: 'app_address_delete', methods: ['POST'])]
     public function delete(Request $request, Address $address, AddressRepository $addressRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$address->getId(), $request->request->get('_token'))) {

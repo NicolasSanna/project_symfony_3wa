@@ -55,6 +55,11 @@
         <button class="btn">{{ button_label|default('Ajouter un commentaire') }}</button>
     {{ form_end(form) }}
 
+    <form method="post" action="{{ path('app_annonce_transaction', {'id': annonce.id}) }}" onsubmit="return confirm('Voulez-vous poursuivre cette transaction ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ annonce.id) }}">
+    <button class="btn">Acheter</button>
+</form>
+
     {% endif %}
 
 {% endblock %}

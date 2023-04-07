@@ -13,7 +13,6 @@ class BankType extends AbstractType
     {
         $builder
             ->add('amount')
-            ->add('user')
         ;
     }
 

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transaction{% endblock %}
+
+{% block body %}
+
+<h1>Transaction</h1>
+<div>
+    <h3>{{annonce.name}}</h3>
+    <p>{{annonce.price}}</p>
+</div>
+
+{% if address|length > 0 %}
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn">{{ button_label|default('Effectuer la transaction') }}</button>
+    {{ form_end(form) }}
+
+{% else %}
+    
+    <a href="{{ path('app_address_new') }}">Créer une nouvelle adresse</a>
+
+{% endif %}
+
+{% endblock %}

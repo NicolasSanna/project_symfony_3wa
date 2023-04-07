@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/bank')]
 class BankController extends AbstractController
 {
-    #[Route('/', name: 'app_bank_index', methods: ['GET'])]
+    #[Route('/admin', name: 'app_bank_index', methods: ['GET'])]
     public function index(BankRepository $bankRepository): Response
     {
         return $this->render('bank/index.html.twig', [
@@ -21,7 +21,7 @@ class BankController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_bank_new', methods: ['GET', 'POST'])]
+    #[Route('/admin/new', name: 'app_bank_new', methods: ['GET', 'POST'])]
     public function new(Request $request, BankRepository $bankRepository): Response
     {
         $bank = new Bank();
@@ -34,13 +34,13 @@ class BankController extends AbstractController
             return $this->redirectToRoute('app_bank_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('bank/new.html.twig', [
+        return $this->render('bank/new.html.twig', [
             'bank' => $bank,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_bank_show', methods: ['GET'])]
+    #[Route('/admin/{id}', name: 'app_bank_show', methods: ['GET'])]
     public function show(Bank $bank): Response
     {
         return $this->render('bank/show.html.twig', [
@@ -48,25 +48,26 @@ class BankController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_bank_edit', methods: ['GET', 'POST'])]
+    #[Route('/admin/{id}/edit', name: 'app_bank_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Bank $bank, BankRepository $bankRepository): Response
     {
         $form = $this->createForm(BankType::class, $bank);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $bank->setUser($this->getUser());
             $bankRepository->save($bank, true);
 
             return $this->redirectToRoute('app_bank_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('bank/edit.html.twig', [
+        return $this->render('bank/edit.html.twig', [
             'bank' => $bank,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_bank_delete', methods: ['POST'])]
+    #[Route('/admin/{id}', name: 'app_bank_delete', methods: ['POST'])]
     public function delete(Request $request, Bank $bank, BankRepository $bankRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$bank->getId(), $request->request->get('_token'))) {

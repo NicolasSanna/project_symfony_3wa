@@ -28,7 +28,12 @@
 
     <a href="{{ path('app_article_index') }}">Revenir à la liste</a>
 
-    <a href="{{ path('app_article_edit', {'id': article.id}) }}">Éditer</a>
+    {% if app.user %}
 
-    {{ include('article/_delete_form.html.twig') }}
+        <a href="{{ path('app_article_edit', {'id': article.id}) }}">Éditer</a>
+
+        {{ include('article/_delete_form.html.twig') }}
+
+    {% endif %}
+
 {% endblock %}
