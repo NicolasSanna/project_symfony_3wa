@@ -63,6 +63,7 @@ class AnnonceController extends AbstractController
 
             return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
         }
+        
         return $this->render('annonce/show.html.twig', [
             'annonce' => $annonce,
             'form' => $form->createView()

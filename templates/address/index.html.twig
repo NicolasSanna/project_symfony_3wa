@@ -3,19 +3,19 @@
 {% block title %}Address index{% endblock %}
 
 {% block body %}
-    <h1>Address index</h1>
+    <h1>Adresses</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Street</th>
-                <th>City</th>
-                <th>Zip</th>
+                <th>Rue</th>
+                <th>Ville</th>
+                <th>Code postal</th>
                 <th>actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody>Ville
         {% for address in addresses %}
             <tr>
                 <td>{{ address.id }}</td>

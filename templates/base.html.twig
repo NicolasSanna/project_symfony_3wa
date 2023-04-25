@@ -22,7 +22,7 @@
             <a href="{{ path('app_logout') }}">Se déconnecter</a>
         </div>
         <div class="mb-3">
-            <a href="{{ path('app_address_index') }}">Mes addresses</a>
+            <a href="{{ path('app_address_index') }}">Mes adresses</a>
         </div>
         <div class="mb-3">
             <a href="{{ path('app_annonce_index') }}">Mes annonces</a>
@@ -30,7 +30,6 @@
         <div class="mb-3">
             <a href="{{ path('app_article_index') }}">Mes articles</a>
         </div>
-
 
     {% else %}
 
@@ -42,9 +41,14 @@
         </div>
 
     {% endif %}
-    <div class="mb-3">
-        <a href="{{ path('app_category_index') }}">Catégories</a>
-    </div>
+
+        <div class="mb-3">
+            <a href="{{ path('app_home') }}">Accueil</a>
+        </div>
+        <div class="mb-3">
+            <a href="{{ path('app_category_index') }}">Catégories</a>
+        </div>
+
     <body>
         {% block body %}{% endblock %}
     </body>
