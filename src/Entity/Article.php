@@ -26,7 +26,7 @@ class Article
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'articles', cascade:['remove', 'persist'])]
+    #[ORM\ManyToOne(inversedBy: 'articles')]
     private ?Category $category = null;
 
     public function getId(): ?int
