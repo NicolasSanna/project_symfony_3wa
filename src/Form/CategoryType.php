@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
 
 class CategoryType extends AbstractType
 {
@@ -15,11 +16,19 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('label', TextType::class, [
+                'attr' => ['maxlength' => 20, 'minlength' => 8, 'class' => 'form-control'],
                 'label' => 'Catégorie',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Le champ ne doit pas être vide',
                     ]),
+                    new Length([
+                        'min' => 8,
+                        'max' => 20,
+                        'minMessage' => 'Votre catégorie doit contenir au moins {{ limit }} caractères',
+                        'maxMessage' => 'Votre catégorie doit faire moins de {{ limit }} caractères',
+                    ]),
+
                 ],
             ])
         ;
